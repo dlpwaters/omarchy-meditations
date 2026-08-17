@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "dlpwaters.meditations",
+  "name": "Meditations",
+  "version": "1.2.0",
+  "author": "DLP Waters",
+  "license": "MIT",
+  "description": "Shows a shuffled passage from Marcus Aurelius's Meditations in an Omarchy panel",
+  "kinds": ["bar-widget"],
+  "entryPoints": {
+    "barWidget": "BarWidget.qml"
+  },
+  "barWidget": {
+    "displayName": "Meditations",
+    "description": "Open a random passage in Familiar, Abbreviated, or Original form",
+    "category": "Info",
+    "allowMultiple": false,
+    "defaultSection": "right"
+  }
+}

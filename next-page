@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+plugin_dir="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
+data_file="$plugin_dir/pages.json"
+cache_base="${XDG_CACHE_HOME:-$HOME/.cache}/omarchy-meditations"
+state_file="$cache_base/shuffle"
+count_file="$cache_base/collection-count"
+lock_file="$cache_base/lock"
+
+mkdir -p "$cache_base"
+exec 9>"$lock_file"
+flock 9
+
+total="$(jq -er '.pages | length | select(. > 0)' "$data_file")"
+
+valid_state=false
+if [[ -s "$state_file" && -f "$count_file" && "$(<"$count_file")" == "$total" ]]; then
+  if awk -v max="$total" 'NF != 1 || $1 !~ /^[0-9]+$/ || $1 >= max { exit 1 }' "$state_file"; then
+    valid_state=true
+  fi
+fi
+
+if [[ "$valid_state" != true ]]; then
+  shuf -i "0-$((total - 1))" > "$state_file"
+  printf '%s\n' "$total" > "$count_file"
+fi
+
+index="$(sed -n '1p' "$state_file")"
+next_state="$state_file.next.$$"
+sed '1d' "$state_file" > "$next_state"
+mv "$next_state" "$state_file"
+remaining="$(wc -l < "$state_file")"
+
+jq -c --argjson index "$index" --argjson total "$total" --argjson remaining "$remaining" \
+  '.pages[$index] + {total: $total, remaining_in_cycle: $remaining}' "$data_file"

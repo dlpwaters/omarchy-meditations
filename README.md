@@ -22,6 +22,12 @@ requests, uses no images, and runs no background service.
 omarchy plugin add https://github.com/dlpwaters/omarchy-meditations.git --enable --yes
 ```
 
+## Remove
+
+```bash
+omarchy plugin remove dlpwaters.meditations
+```
+
 Runtime requirements (`jq`, `shuf`, `flock`, and `wl-copy`) are included in a
 standard Omarchy installation.
 

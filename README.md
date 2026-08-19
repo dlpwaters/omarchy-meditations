@@ -7,6 +7,16 @@ Meditations reader in Familiar, Abbreviated, and Original editions.
 The shuffle bag shows every section once before reshuffling. It makes no network
 requests, uses no images, and runs no background service.
 
+## Screenshots
+
+### Familiar edition
+
+![Meditations plugin showing the Familiar edition](assets/screenshots/familiar.png)
+
+### Abbreviated edition
+
+![Meditations plugin showing the Abbreviated edition](assets/screenshots/abbreviated.png)
+
 ## Controls
 
 - Click the book icon: open a passage; click again for another
